@@ -6,7 +6,7 @@ import signal, sys
 import collections
 
 class PacketStats:
-	window_size = 1
+	window_size = 10
 
 	def __init__(self, packet_type):
 		self.packet_type = packet_type
@@ -17,13 +17,17 @@ class PacketStats:
 		if packet.length >= 0:
 			self.packets.append({'timestamp': float(packet.sniff_timestamp), 'length': float(packet.length)})
 			self.total_length += float(packet.length)
-			while float(packet.sniff_timestamp) - self.packets[0]['timestamp'] > self.window_size:
+			while float(float(packet.sniff_timestamp) - self.packets[0]['timestamp']) > self.window_size:
 				self.total_length -= self.packets[0]['length']
 				self.packets.popleft()
 
 def signal_handler(signal, frame):
 	for packet_type in packet_stats:
 		print packet_type + ': ' + str(packet_stats[packet_type].total_length)
+		if len(packet_stats[packet_type].packets) > 0:
+			print len(packet_stats[packet_type].packets)
+			print packet_stats[packet_type].packets[0]['timestamp']
+			print packet_stats[packet_type].packets[-1]['timestamp']
 	sys.exit(0)
 
 ##########
