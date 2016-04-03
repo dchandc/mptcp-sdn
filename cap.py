@@ -101,17 +101,25 @@ def main():
     parser.add_argument('interface', help='interface to capture')
     parser.add_argument('-p', '--pcap_file', default='tmp.pcap',
                         help='pcap file to create and analyze')
-    parser.add_argument('-c', '--packet-count', type=int, default=100000,
+    parser.add_argument('-c', '--packet-count', type=int, default=10000,
                         help='tcpdump packet count')
     parser.add_argument('-o', '--output-dir', default='output',
                         help='captcp output directory')
     parser.add_argument('-j', '--json-file', default='captcp.json',
                         help='captcp json file')
+    parser.add_argument('-i', '--infinite', action='store_true',
+                        help='run infinite loop')
     args = parser.parse_args()
 
-    #run_tcpdump(args)
-    #run_captcp(args)
-    generate_json(args)
+    if args.infinite:
+        while True:
+            run_tcpdump(args)
+            run_captcp(args)
+            generate_json(args)
+    else:
+        run_tcpdump(args)
+        run_captcp(args)
+        generate_json(args)
 
 if __name__ == '__main__':
     main()
