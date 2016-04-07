@@ -3,10 +3,7 @@
 import argparse
 import signal
 import sys
-import subprocess
 import os
-import shlex
-import re
 import json
 import socket
 
