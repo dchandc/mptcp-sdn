@@ -1,0 +1,15 @@
+package sdn;
+
+message Update {
+  enum UpdateType {
+    NEIGHBOR = 0;
+    FLOW = 1;
+  }
+
+  required UpdateType type = 1;
+  required string data = 2;
+}
+
+message Bundle {
+  repeated Update update = 1;
+}
