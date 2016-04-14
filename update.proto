@@ -2,8 +2,9 @@ package sdn;
 
 message Update {
   enum UpdateType {
-    NEIGHBOR = 0;
-    FLOW = 1;
+    PING = 0;
+    NEIGHBOR = 1;
+    FLOW = 2;
   }
 
   required UpdateType type = 1;
@@ -11,5 +12,7 @@ message Update {
 }
 
 message Bundle {
-  repeated Update update = 1;
+  required int32 timestamp = 1;
+  required string origin = 2;
+  repeated Update update = 3;
 }
